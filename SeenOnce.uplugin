@@ -1,0 +1,28 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"EngineVersion": "5.8.0",
+	"FriendlyName": "SeenOnce - Tutorial Hints That Show Once And Stay Shown",
+	"Description": "A hint fires when its condition becomes true, shows once, and is never shown again - not this session, not next week, because it is written into the save. Drawing the box is half an hour of work. The two days after that are the reason this plugin exists: does the memory survive a restart, what happens when two conditions become true in the same frame, what happens on the second save game, and how does anybody check the whole set without playing from the beginning again. SeenOnce answers those four. The memory lives in a save game, not in a bool on the game instance, so it survives quitting the game - and a new save shows the hints again, which is correct and not a bug. Two hints that come due together become one queue ordered by importance, never two boxes on top of each other; a hint that is on screen is interrupted only by a more important one, and only after its minimum display time has passed, because text that flashes for four frames taught nobody anything. There is a cooldown between hints and a suppression switch for the states where no hint may appear - cutscene, menu, boss fight - and a hint that comes due while suppression is on is not lost, it waits. Conditions are data where they can be: gameplay tag present, actor entered an area, action performed N times, time played, item received. Everything else is one Blueprint node, so the built-in cases cover the majority and nobody who needs more is locked out. And the part no competitor has: an overview screen, drawn on UCanvas so it exists in a packaged Shipping build too, listing every hint with its state - seen and when, pending, or never triggered. Never triggered is the important line. It is how you find the hint whose condition can never become true, and there is no other way to find that one. Console commands reset a single hint or all of them, so the same run can be checked twice. A hint is a data asset - id, localizable FText, importance, minimum display time, cooldown, repeat rule (once forever, once per save, every time, N times), condition and its parameters, an optional icon and sound. The display is a UMG widget that ships with the plugin and is meant to be replaced: bind your own widget to OnHintShown and OnHintHidden and the plugin decides only whether and when, never what it looks like. SeenOnce brings no save system of its own and replaces none. Use the built-in slot, or call ExportState and ImportState and put the compact struct of ids and timestamps into your own save. Unknown ids on load are kept, never discarded, so renaming a hint or loading an older save cannot silently erase the memory and show a player the tutorial a second time. The decision logic - should this show, which one is next, what does the state add up to - is static functions over plain values with no world behind them, covered by automation tests and callable from your own tooling. Companion note: CaptionCue repeats what is being said; SeenOnce teaches something once and remembers it. The hint text is FText, so LocaleGuard can check it like any other line in the game. Win64, one runtime module, source included, no third-party code.",
+	"Category": "Gameplay Features",
+	"CreatedBy": "Silvan Teufel",
+	"CreatedByURL": "https://silvan.teufel-engineering.com",
+	"DocsURL": "https://wiki.teufel-engineering.com/en/seenonce/documentation",
+	"MarketplaceURL": "",
+	"SupportURL": "mailto:teufelsilvan@gmail.com",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "SeenOnce",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		}
+	]
+}
